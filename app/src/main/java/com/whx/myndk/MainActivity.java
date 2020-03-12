@@ -2,6 +2,11 @@ package com.whx.myndk;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -41,7 +46,29 @@ public class MainActivity extends AppCompatActivity {
                 etMD5Context.setText("");
             }
         });
+        findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity();
+            }
+        });
         sample_text.setText("MD5(内容)=");
+    }
+
+    private void startActivity() {
+        try {
+            Uri uri = Uri.parse("qjj://auction/openGoodsInfo?param1=测试&param2=实验");
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(uri);
+            PackageManager packageManager = getPackageManager();
+            ComponentName componentName = intent.resolveActivity(packageManager);
+            if (componentName != null) {
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
