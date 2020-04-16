@@ -1,2 +1,2 @@
-include ':app', ':apmtools'
+include ':app', ':apmtools', ':giflib'
 rootProject.name='MyNdk'

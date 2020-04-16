@@ -67,26 +67,34 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.whx.myndk.ShadowLayout
-        android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:sl_shadowRadius="4dp"
-        app:sl_shadowColor="@color/default_shadow_color"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button1"
+        app:sl_cornerRadius="56dp"
         app:sl_dx="2dp"
         app:sl_dy="2dp"
-        app:layout_constraintTop_toBottomOf="@id/button1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:sl_cornerRadius="56dp">
+        app:sl_shadowColor="@color/default_shadow_color"
+        app:sl_shadowRadius="4dp">
 
         <ImageButton
             android:id="@+id/ib"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/ic_launcher_foreground"
             android:background="@drawable/ic_launcher_background"
-            tools:ignore="ContentDescription"/>
+            android:src="@drawable/ic_launcher_foreground"
+            tools:ignore="ContentDescription" />
 
     </com.whx.myndk.ShadowLayout>
 
+    <ImageView
+        android:id="@+id/ivGif"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etContext" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
