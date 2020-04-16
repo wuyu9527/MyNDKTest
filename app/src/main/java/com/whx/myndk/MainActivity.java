@@ -25,6 +25,8 @@ import android.widget.EditText;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
+import com.whx.apmtools.APMManager;
+
 public class MainActivity extends AppCompatActivity {
 
     // Used to load the 'native-lib' library on application startup.
@@ -67,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                setUpNotification();
 
-                 if (NotificationUtil.isNotifyEnabled(MainActivity.this)){
-                     Log.i("whx", "通知通过");
+                if (NotificationUtil.isNotifyEnabled(MainActivity.this)) {
+                    Log.i("whx", "通知通过");
 //                     createNotification();
-                     showMessage(MainActivity.this,MainActivity.class, getString(R.string.app_name), "正文", 1234);
-                 }else {
-                     Log.i("whx", "无通知");
-                     startNo();
-                 }
+                    showMessage(MainActivity.this, MainActivity.class, getString(R.string.app_name), "正文", 1234);
+                } else {
+                    Log.i("whx", "无通知");
+                    startNo();
+                }
             }
         });
         findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
@@ -84,9 +86,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         sample_text.setText("MD5(内容)=");
+        //必须root后才能展示
+//        APMManager.getInstance(this).showAPM();
     }
 
-    private void startNo(){
+    private void startNo() {
         Intent localIntent = new Intent();
         //直接跳转到应用通知设置的代码：
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {//8.0及以上
@@ -116,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(localIntent);
     }
 
-    private void createNotification(){
+    private void createNotification() {
         mNotification = new NotificationCompat.Builder(this, "123")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentText(getString(R.string.app_name) + "下载中:" + progress + "%")
@@ -125,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         mNotificationManager.notify(1, mNotification);
     }
+
     /**
      * 创建通知
      */
@@ -206,18 +211,14 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 消息通知栏
-     * @param context
-     *      上下文
-     * @param cl
-     *      需要跳转的Activity
-     * @param tittle
-     *      通知栏标题
-     * @param content
-     *      通知栏内容
-     * @param i
-     *      通知的标识符
+     *
+     * @param context 上下文
+     * @param cl      需要跳转的Activity
+     * @param tittle  通知栏标题
+     * @param content 通知栏内容
+     * @param i       通知的标识符
      */
-    public static void showMessage(Context context, Class cl, String tittle, String content,int i) {
+    public static void showMessage(Context context, Class cl, String tittle, String content, int i) {
         Intent intent = new Intent(context, cl);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         //频道的ID。每个包必须是唯一的
@@ -228,9 +229,9 @@ public class MainActivity extends AppCompatActivity {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         Notification notification = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel mChannel = new NotificationChannel(id,name,NotificationManager.IMPORTANCE_LOW);
+            NotificationChannel mChannel = new NotificationChannel(id, name, NotificationManager.IMPORTANCE_LOW);
             notificationManager.createNotificationChannel(mChannel);
-            notification = new Notification.Builder(context,id)
+            notification = new Notification.Builder(context, id)
                     .setChannelId(id)
                     .setContentTitle(tittle)//设置通知标题
                     .setContentText(content)//设置通知内容
@@ -260,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                             .setContentIntent(pendingIntent)//打开消息跳转到这儿
                             .setAutoCancel(false)
                             .setOngoing(true);
-                            //.setPriority(NotificationCompat.PRIORITY_MAX);
+            //.setPriority(NotificationCompat.PRIORITY_MAX);
             notification = notificationBuilder.build();
         }
         notificationManager.notify(i, notification);
