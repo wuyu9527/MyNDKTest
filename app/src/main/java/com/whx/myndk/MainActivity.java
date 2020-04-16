@@ -1,6 +1,5 @@
 package com.whx.myndk;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
@@ -30,8 +29,6 @@ import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
-import com.whx.apmtools.APMManager;
-import com.whx.giflib.GifHandler;
 
 import java.io.File;
 
@@ -72,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 etMD5Context.setText("");
             }
         });
-        imageView = findViewById(R.id.ivGif);
         findViewById(R.id.ib).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("whx", "无通知");
                     startNo();
                 }
-                load();
+                Intent intent = new Intent(MainActivity.this,GifActivity.class);
+                startActivity(intent);
             }
         });
         findViewById(R.id.button3).setOnClickListener(new View.OnClickListener() {
@@ -277,43 +274,7 @@ public class MainActivity extends AppCompatActivity {
         notificationManager.notify(i, notification);
     }
 
-    private String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator +
-            "Pictures/gif.gif";
-    private Bitmap bitmap;
-    private int maxLength;
-    private int currentLength;
-    private GifHandler gifHandler;
-    private ImageView imageView;
 
-    private void load() {
-        Log.i("whx", path);
-        gifHandler = new GifHandler(path);
-        int width = gifHandler.getWidth();
-        int height = gifHandler.getHeight();
-        bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        maxLength = gifHandler.getLength();
-
-        long delayTime = gifHandler.renderFrame(bitmap, currentLength);
-        imageView.setImageBitmap(bitmap);
-        if (handler != null) {
-            handler.sendEmptyMessageDelayed(1, delayTime);
-        }
-        /*Glide.with(this).asGif().load(path).into(imageView);*/
-    }
-
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(@NonNull Message msg) {
-            currentLength++;
-            if (currentLength >= maxLength) {
-                currentLength = 0;
-            }
-            long delayTime = gifHandler.renderFrame(bitmap, currentLength);
-            imageView.setImageBitmap(bitmap);
-            handler.sendEmptyMessageDelayed(0, delayTime);
-            return false;
-        }
-    });
 
     /**
      * A native method that is implemented by the 'native-lib' native library,

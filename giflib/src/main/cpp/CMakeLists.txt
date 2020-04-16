@@ -1,15 +1,28 @@
+
 cmake_minimum_required(VERSION 3.4.1)
 
-set(SOURCES)
-file(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/*.cpp ${CMAKE_SOURCE_DIR}/*.c)
+file(GLOB_RECURSE GIF_DIRECTORIES ${CMAKE_SOURCE_DIR}/giflib/*.*)
 
 add_library(
-        gif-lib
+        gifplayer
         SHARED
-        ${SOURCES})
-set(LIBS)
-list(APPEND LIBS log jnigraphics)
+        PthreadSleep.cpp
+        SyncTime.cpp
+        GifPlayer.cpp
+        GifJni.cpp
+        ${GIF_DIRECTORIES}
+#        giflib/dgif_lib.c
+#        giflib/egif_lib.c
+#        giflib/gif_err.c
+#        giflib/gif_hash.c
+#        giflib/gifalloc.c
+#        giflib/openbsd-reallocarray.c
+#        giflib/quantize.c
+)
+
 
 target_link_libraries(
-        gif-lib
-        ${LIBS})
+        gifplayer
+        jnigraphics
+        log
+        android)
