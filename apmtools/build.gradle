@@ -33,6 +33,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
 
+//root才有效果
 def _BASENAME = "apm-tools"
 def _VERSION = "-v1.0"
 def _DestinationPath = "build" //生成jar包的位置
